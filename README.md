@@ -34,13 +34,16 @@ The api.py file serves as the backend API server for the application, built usin
 
 ## Running the Program
 Frontend:
-cd into the app folder: 
+
+```cd frontend```
 
 ```npm i```
 
 ```npm start```
 
 Backend: 
+
+```cd backend```
 
 ```pip3 install -r requirements.txt```
 
