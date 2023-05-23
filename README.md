@@ -8,6 +8,7 @@ Frontend:
 The frontend is built using React, and allows the user to drop/select a JSON file containing custom transaction data (if they so choose). The data must be formatted according to the sample transaction data provided on the assessment documentation page: 
 
 ex.
+```
 {
     "transactions": {
         "T01": { "date": "2021-05-01", "merchant_code": "sportcheck", "amount_cents": 21000 },
@@ -22,6 +23,7 @@ ex.
         "T10": { "date": "2021-05-10", "merchant_code": "tim_hortons", "amount_cents": 1321 }
     }
 }
+```
 
 Upon providing the transaction data, it will be sent to an API endpoint for the computation of the max rewards by month, which will then be displayed on the page. 
 
