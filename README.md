@@ -28,12 +28,25 @@ Upon providing the transaction data, it will be sent to an API endpoint for the 
 Backend: 
 In reward_calculator.py, the class `RewardCalculator` contains the logic to compute both the maximum reward points per transaction and for the entire month. 
 
-The api.py file serves as the backend API server for the application, built using Flask. This function is decorated with @app.route('/calculate_rewards', methods=['POST']) to handle HTTP POST requests containing the transaction data. It extracts the transaction data from the request JSON and passes it to the RewardCalculator class for reward calculation.
+The api.py file serves as the backend API server for the application, built using Flask. The function 'calculate_rewards' is decorated with @app.route('/calculate_rewards', methods=['POST']) to handle HTTP POST requests containing the transaction data. It extracts the transaction data from the request JSON and passes it to the RewardCalculator class for reward calculation.
 
 ## Running the Program
+Frontend:
+cd into the app folder: 
+'''npm i''' 
+'''npm start'''
+
+Backend: 
+'''pip3 install -r requirements.txt'''
+'''python3 api.py'''
+
 The program is written in Python 3 so make sure the version is properly installed in your machine's environment. 
 
-## Testing 
-For a quick test to ensure that the basic requirements are satisfied, cd into the backend folder and run
-'''python reward_calculator.py'''. This will return max rewards for each transaction for for the month using the default transactions provided. 
+Please note that both the react and flask server must be running at the same time for app to properly work. 
 
+## Testing 
+For a quick test to ensure that the basic requirements are satisfied, cd into the backend folder and run '''python reward_calculator.py'''. 
+
+This will return max rewards for each transaction for for the month using the default transactions provided. 
+
+Otherwise, feel free to include your own transaction data and run the program to drop it in. 

@@ -2,40 +2,41 @@ from typing import Any, Dict, List, Set, Tuple  # for typing hints
 
 # default given rules
 RULES = [
-    {"rule_num": 1,
-    "points": 500,
-     "limits": [("sportcheck", 75), ("tim_hortons", 25), ("subway", 25)]
-     },
     {
-    "rule_num": 2,
-    "points": 300,
-     "limits": [("sportcheck", 75), ("tim_hortons", 25)]
-     },
+        "rule_num": 1,
+        "points": 500,
+        "limits": [("sportcheck", 75), ("tim_hortons", 25), ("subway", 25)]
+    },
     {
-     "rule_num": 3,
-     "points": 200,
-     "limits": [("sportcheck", 75)]
-     },
+        "rule_num": 2,
+        "points": 300,
+        "limits": [("sportcheck", 75), ("tim_hortons", 25)]
+    },
     {
-     "rule_num": 4,
-     "points": 150,
-     "limits": [("sportcheck", 25), ("tim_hortons", 10), ("subway", 10)]
-     },
+        "rule_num": 3,
+        "points": 200,
+        "limits": [("sportcheck", 75)]
+    },
     {
-     "rule_num": 5,
-     "points": 75,
-     "limits": [("sportcheck", 25), ("tim_hortons", 10)]
-     },
+        "rule_num": 4,
+        "points": 150,
+        "limits": [("sportcheck", 25), ("tim_hortons", 10), ("subway", 10)]
+    },
     {
-     "rule_num": 6,
-     "points": 75,
-     "limits": [("sportcheck", 20)]
-     },
+        "rule_num": 5,
+        "points": 75,
+        "limits": [("sportcheck", 25), ("tim_hortons", 10)]
+    },
     {
-     "rule_num": 7,
-     "points": 1,
-     "limits": [("other", 1)]
-     },
+        "rule_num": 6,
+        "points": 75,
+        "limits": [("sportcheck", 20)]
+    },
+    {
+        "rule_num": 7,
+        "points": 1,
+        "limits": [("other", 1)]
+    },
 ]
 
 # add additional merchant names to list if need be
@@ -74,11 +75,15 @@ class RewardCalculator:
         self.read_transactions()
 
     def read_transactions(self):
-        
+        """
+        Read transactions and organize transactions into 
+        formats used for the individual and monthly reward calculations.
+        """
+
         # formatted transactions with list of only merchant and amount
         formmated_transactions = []
-      
-        # group transactions by merchant for monthlycalculation
+
+        # group transactions by merchant for monthly calculation
         monthly_transactions_by_merchant = {
             merchant: 0.0 for merchant in self.known_merchants}
 
@@ -90,36 +95,49 @@ class RewardCalculator:
                 merchant = "other"
 
             amount = transaction["amount_cents"] / 100
-            
+
             formmated_transactions.append({merchant: amount})
 
             monthly_transactions_by_merchant[merchant] += amount
-        
+
         self.formmated_transactions = formmated_transactions
         self.monthly_transactions = monthly_transactions_by_merchant
 
     def remove_unoptimal_rules(self):
-        # Idea: Using Greedy Strategy -> always use the rule that gives the most points if resources are sufficient
-        # Rules 3/5 gives more points, but they also use more resources per dollar vs. other existing rules with the exact same merchants
-        # Therefore, should remove rules 3/5 to fit solution to greedy structure and get a more optimal result
+        """
+        Idea: Greedy Strategy -> always use the rule that gives the most points if resources are sufficient
+        Rules 3/5 gives more points, but they also use more resources per dollar 
+        vs. other existing rules with the exact same merchants. 
+        
+        Therefore, should remove rules 3/5 to fit solution to greedy structure and get a more optimal result
+        """
         
         self.rules = [rule for rule in self.rules if rule["rule_num"] not in {3, 5}]
 
-    # apply Greedy 
     def max_rewards_for_transaction(self, transaction):
+        
+        """
+        Calculate maximum rewards for transaction amounts (can be used with a single merchant or multiple merchants). 
+        
+        Args:
+            transaction: A dictionary of transaction amounts with merchants and the dollars spent with them
+
+        Returns:
+            A tuple containing the maximum rewards and the rules applied 
+        """
         rewards = 0
         rules_used = []
 
         # priotize rules that give the most points
         for rule in sorted(self.rules, key=lambda rule: rule["points"], reverse=True):
-            
+
             # compute how many times rule can be applied
             while self.can_apply_rule(transaction, rule["limits"]):
                 for merchant, dollars_spent in rule["limits"]:
                     transaction[merchant] -= dollars_spent
-                    
+
                 rewards += rule["points"]
-                rules_used.append(rule["rule_num"]) 
+                rules_used.append(rule["rule_num"])
 
         # add remaining amount to "other" after going through all of the rules
         remaining_amount = sum(transaction.values())
@@ -128,47 +146,81 @@ class RewardCalculator:
 
             # assuming the last rule is for "other"
             rule_for_other = self.rules[-1]
-            
+
             if self.can_apply_rule(transaction, rule_for_other["limits"]):
                 transaction["other"] -= remaining_amount
                 rewards += rule_for_other["points"] * \
-                    int(remaining_amount // rule_for_other["limits"][0][1]) 
-                
+                    int(remaining_amount // rule_for_other["limits"][0][1])
+
                 # add the given points for each dollar used in the "other" rule (default is 1 point/dollar)
-                    
+
                 if rule_for_other["rule_num"] not in rules_used:
                     rules_used.append(rule_for_other["rule_num"])
 
         return {"points": rewards}, {"rules_used": rules_used}
 
     def max_points_by_transaction(self) -> List[Tuple[int, Dict[str, List[int]]]]:
+        """
+        Calculate maximum points for each transaction seperately.
+
+        Returns:
+            A list of tuples of the maximum points and the rules used for each transaction.
+        """
         max_rewards = []
-        
+
         # return list of points for each transaction if they were computed seperately
 
         for count, transaction in enumerate(self.formmated_transactions):
             max_reward = self.max_rewards_for_transaction(transaction)
+
+            # to keep to same output format as monthly transactions, 
+            # better not include transaction number
+            # tradeoff between output consistency and output clarity
             
-            max_rewards.append({"T" + str(count + 1): max_reward})
+            # max_rewards.append({"T" + str(count + 1): max_reward})
+            max_rewards.append(max_reward)
 
         return max_rewards
 
     def max_points_for_month(self) -> Tuple[int, Dict[str, List[int]]]:
+        """
+        Calculate maximum points for all transactions in a month
+        
+        Returns:
+            A tuple containing the maximum points and the rules used for all transactions in a month.
+        """
 
         # return list of points for transactions if they were grouped together
         return self.max_rewards_for_transaction(self.monthly_transactions)
 
     def can_apply_rule(self, transaction, limits):
+        """
+        Check if a rule can be applied to a transaction based 
+        on the transaction amount and the rule's minimum dollar limit.
+        
+        Args:
+            transaction: A dictionary of transaction amounts with merchants and the dollars spent with them.
+            limits: A list of tuples, each containing a merchant and a dollar spent minimum limit.
+
+        Returns:
+            A boolean value indicating whether the rule can be applied.
+        """
         for merchant, limit in limits:
-            if transaction.get(merchant, 0) < limit: # return 0 if merchant not in transaction to prevent access error
+            # return 0 if merchant not in transaction to prevent access error
+            if transaction.get(merchant, 0) < limit:
                 return False
         return True
-    
+
+
 def testing():
+    print("Rewards For Default Transactions:")
+    print("--------------------------------")
     print("Rewards by Transaction:",
-            RewardCalculator().max_points_by_transaction())
+          RewardCalculator().max_points_by_transaction())
+    print("\n")
     print("Total Rewards for Month:",
-            RewardCalculator().max_points_for_month())
+          RewardCalculator().max_points_for_month())
+    print("\n")
 
 
-testing()  # displays raw data for default inputs in the cmd line 
+testing()  # displays rewards output for default inputs in the cmd line

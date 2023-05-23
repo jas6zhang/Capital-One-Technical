@@ -1,0 +1,14 @@
+{
+    "transactions": {
+        "T01": { "date": "2023-05-01", "merchant_code": "sportcheck", "amount_cents": 13200 },
+        "T02": { "date": "2023-05-02", "merchant_code": "tim_hortons", "amount_cents": 456 },
+        "T03": { "date": "2023-05-03", "merchant_code": "sportcheck", "amount_cents": 8765 },
+        "T04": { "date": "2023-05-04", "merchant_code": "tim_hortons", "amount_cents": 1387 },
+        "T05": { "date": "2023-05-05", "merchant_code": "subway", "amount_cents": 2000 },
+        "T06": { "date": "2023-05-06", "merchant_code": "sportcheck", "amount_cents": 15300 },
+        "T07": { "date": "2023-05-07", "merchant_code": "subway", "amount_cents": 2250 },
+        "T08": { "date": "2023-05-08", "merchant_code": "tim_hortons", "amount_cents": 1673 },
+        "T09": { "date": "2023-05-09", "merchant_code": "sportcheck", "amount_cents": 11700 },
+        "T10": { "date": "2023-05-10", "merchant_code": "tim_hortons", "amount_cents": 1562 }
+    }
+}
