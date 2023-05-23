@@ -33,7 +33,7 @@ In reward_calculator.py, the class `RewardCalculator` contains the logic to comp
 The api.py file serves as the backend API server for the application, built using Flask. The function 'calculate_rewards' is decorated with @app.route('/calculate_rewards', methods=['POST']) to handle HTTP POST requests sent to the endpoint containing the transaction data. It extracts the transaction data from the request JSON and passes it to the RewardCalculator class for reward calculation.
 
 ## Running the Program
-Frontend:
+### Frontend:
 
 ```cd frontend```
 
@@ -41,7 +41,7 @@ Frontend:
 
 ```npm start```
 
-Backend: 
+### Backend: 
 
 ```cd backend```
 
