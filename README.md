@@ -55,7 +55,9 @@ The api.py file serves as the backend API server for the application, built usin
 
 The program is written in Python 3 so make sure the version is properly installed in your machine's environment. 
 
-Please note that both the react and flask server must be running at the same time for app to properly work. 
+Please note that both the React and Flask server must be running at the same time for app to properly work. 
+
+If simply to check that the program can calculate the reward amount, please read the testing section below. 
 
 ## Testing 
 For a quick test to ensure that the basic requirements are satisfied, cd into the backend folder and run ```python reward_calculator.py```. 
