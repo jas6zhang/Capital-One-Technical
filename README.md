@@ -63,5 +63,11 @@ If simply to check that the program can calculate the reward amount, please read
 For a quick test to ensure that the basic requirements are satisfied, cd into the backend folder and run ```python reward_calculator.py```. 
 
 This will return max rewards for each transaction and for the month using the default transactions provided. 
+```
+Rewards by Transaction: [({'points': 760}, {'rules_used': [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7]}), ({'points': 307}, {'rules_used': [6, 6, 6, 6, 7]}), ({'points': 3}, {'rules_used': [7]}), ({'points': 12}, {'rules_used': [7]}), ({'points': 21}, {'rules_used': [7]}), ({'points': 22}, {'rules_used': [7]}), ({'points': 18}, {'rules_used': [7]}), ({'points': 21}, {'rules_used': [7]}), ({'points': 238}, {'rules_used': [6, 6, 6, 7]}), ({'points': 13}, {'rules_used': [7]})]
+
+
+Total Rewards for Month: ({'points': 1657}, {'rules_used': [1, 2, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7]})
+```
 
 Otherwise, feel free to include your own transaction data and run the program to drop it in!
