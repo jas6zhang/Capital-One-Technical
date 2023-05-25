@@ -36,6 +36,7 @@ The api.py file serves as the backend API server for the application, built usin
 ### Frontend:
 
 ```cd frontend```
+```cd app```
 
 ```npm i```
 
