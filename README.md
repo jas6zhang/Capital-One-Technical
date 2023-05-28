@@ -33,7 +33,7 @@ Upon providing the transaction data, it will be sent to an API endpoint for the 
 ### Backend: 
 In reward_calculator.py, the class `RewardCalculator` contains the logic to compute both the maximum reward points per transaction and for the entire month. 
 
-The api.py file serves as the backend API server for the application, built using Flask. The function 'calculate_rewards' is decorated with ```@app.route('/calculate_rewards', methods=['POST'])``` to handle HTTP POST requests sent to the endpoint containing the transaction data. It extracts the transaction data from the request JSON and passes it to the RewardCalculator class for reward calculation.
+The api.py file serves as the backend API server for the application, built using Flask. The function 'calculate_rewards' is decorated with ```@app.route('/calculate_rewards', methods=['POST'])```, handling HTTP POST requests sent to the endpoint containing the transaction data. It extracts the transaction data from the request JSON and passes it to the RewardCalculator class for reward calculation. The RewardCalculator class uses a greedy algorithm approach in order to give users the greatest amount of points. 
 
 ## Running the Program
 ### Frontend:
