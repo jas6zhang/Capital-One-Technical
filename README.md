@@ -25,9 +25,7 @@ ex.
 }
 ```
 
-Upon providing the transaction data, it will be sent to an API endpoint for the computation of the max rewards by month, which will then be displayed on the page. 
-![Screenshot - 2023-05-24T222738 425](https://github.com/jas6zhang/Capital-One-Technical/assets/65873016/f3ee1448-b710-4530-8c4b-2aced1bc2610)
-
+Upon providing the transaction data, it will be sent to an API endpoint for the computation of the max rewards by month, which will then be displayed on the page. <!---![Screenshot - 2023-05-24T222738 425](https://github.com/jas6zhang/Capital-One-Technical/assets/65873016/f3ee1448-b710-4530-8c4b-2aced1bc2610)-->
 *Note that the points by each transaction is not displayed due to usability for (imaginary) consumers. To compute the max points for each indvidual data, please go see the Testing Section in this markdown page. 
 
 ### Backend: 
